@@ -9,8 +9,7 @@ Eigen 3.3.7
 
 ### Install the dependencies as Linux Debian Packages:
 
-`sudo apt-get install libsfml-dev`  
-`sudo apt-get install libeigen3-dev`
+`sudo apt-get install libsfml-dev libeigen3-dev libopencv-dev python3-opencv`
 
 ### Build the code using cmake:
 
