@@ -14,11 +14,13 @@ include_directories()
 include_directories( ./include ./src)
 
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+find_package( OpenCV REQUIRED )
 set(CMAKE_MODULE_PATH "/usr/share/SFML/cmake/Modules" ${CMAKE_MODULE_PATH})
 find_package(SFML 2.4 REQUIRED system window graphics audio)
 
 include_directories(${SFML_INCLUDE_DIR}
                     ${EIGEN_INCLUDE_DIR}
+                    ${OpenCV_INCLUDE_DIRS}
 )
 
 # add the executable
@@ -33,6 +35,7 @@ target_link_libraries("${PROJECT_NAME}"
     # imgui
     # imgui-sfml
     Eigen3::Eigen
+    ${OpenCV_LIBS}
     )
 
 # add_dependencies("${PROJECT_NAME}"
