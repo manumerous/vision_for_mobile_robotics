@@ -21,7 +21,8 @@ You may then run the programm by using:
 `./runApplication`
 
 provisional command:
-`sudo docker run --rm -ti --net=host --ipc=host -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --name vafmr_test vafmr_ex1`
+`xhost +`
+`docker run --rm -ti --net=host --ipc=host -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --name vafmr_test vafmr_ex1`
 
 ### Links:
 
