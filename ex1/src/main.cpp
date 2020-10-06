@@ -11,6 +11,7 @@
 // Libraries
 #include <SFML/Graphics.hpp>
 #include <eigen3/Eigen/Dense>
+#include <eigen3/Eigen/Cholesky>
 #include <opencv2/opencv.hpp>
 
 // Standart Libraries
@@ -30,37 +31,49 @@
 // Local Files
 #include "utils.cpp"
 #include "file_manager.cpp"
+#include "rotation_parametrizations.cpp"
 
-std::string get_cpp_verion()
+Eigen::Matrix4d tranformMatFromPoseVec(Eigen::VectorXd pose_vec)
 {
-    std::string version;
-    if (__cplusplus == 201703L)
-        version = "C++17";
-    else if (__cplusplus == 201402L)
-        version = "C++14";
-    else if (__cplusplus == 201103L)
-        version = "C++11";
-    else if (__cplusplus == 199711L)
-        version = "C++98";
-    else
-        version = "pre-standard C++";
-
-    return version;
+    Eigen::Vector3d angle_axis_vec(pose_vec.head(3));
+    Eigen::Vector3d translation_vec(pose_vec.tail(3));
+    Eigen::Matrix3d R = angleAxisToRotMat(angle_axis_vec);
+    Eigen::Matrix4d T;
+    T << R, translation_vec,
+        0, 0, 0, 1;
+    return T;
 }
 
 int main(int argc, char **argv)
 {
-
-    std::string base_path(get_base_directory());
+    std::string base_path("/home/manu/Documents/github/vision_for_mobile_robotics/ex1");
     std::cout << "application base path: " << base_path << "\n";
 
-    std::string k_mat_filename = "/data/K.txt";
-    std::cout << k_mat_filename << "\n";
-    std::string k_mat_filepath = base_path + k_mat_filename;
-    Eigen::MatrixXd K = readMatrix(k_mat_filepath.c_str());
-    std::cout << K << "\n";
+    std::string current_cpp_version(getCPP_Version());
+    std::cout << "current C++ version: " << current_cpp_version << "\n";
 
-    // std::cout << get_cpp_verion();
+    std::string k_mat_filename = "/data/K.txt";
+    Eigen::MatrixXd K = getMatrixFromTXT((base_path + k_mat_filename).c_str());
+    // std::cout << "K = " << K << "\n";
+
+    std::string d_mat_filename = "/data/D.txt";
+    Eigen::MatrixXd D = getMatrixFromTXT((base_path + d_mat_filename).c_str());
+    // std::cout << "D = " << D << "\n";
+
+    std::string poses_mat_filename = "/data/poses.txt";
+    Eigen::MatrixXd poses = getMatrixFromTXT((base_path + poses_mat_filename).c_str());
+    // std::cout << "poses = " << poses << "\n";
+
+    Eigen::Vector3d angle_axis_1(poses(0, 0), poses(0, 1), poses(0, 2));
+    // Eigen::Vector3d angle_axis_test(0, M_PI / 2, 0);
+    // std::cout << "poses = " << angle_axis_test << "\n";
+    Eigen::Matrix3d rot_mat_1 = angleAxisToRotMat(angle_axis_1);
+    std::cout << "rot_mat_1 = " << rot_mat_1 << "\n";
+
+    Eigen::VectorXd pose_vec_test = poses.row(0);
+    std::cout << "pose_vec_test = " << pose_vec_test << "\n";
+    Eigen::Matrix4d T = tranformMatFromPoseVec(pose_vec_test);
+    std::cout << T << "\n";
 
     return 0;
 }

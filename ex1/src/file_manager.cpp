@@ -1,9 +1,19 @@
+/**
+ * @file file_manager.cpp
+ *
+ * @brief functions concerning the loading and saving of data to files. 
+ *
+ * @author Manuel Galliker
+ * Contact: manuel.galliker@gmx.ch
+ *
+ */
+
 #include <eigen3/Eigen/Dense>
 #include <fstream>
 
 #define MAXBUFSIZE ((int)1e6)
 
-Eigen::MatrixXd readMatrix(const char *filename)
+Eigen::MatrixXd getMatrixFromTXT(const char *filename)
 {
     int cols = 0, rows = 0;
     double buff[MAXBUFSIZE];
