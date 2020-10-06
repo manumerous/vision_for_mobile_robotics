@@ -1,4 +1,4 @@
-# vision_algorithms_for_mobile_robotics
+# Vision for Mobile Robotics
 
 A collection of vision algorithms in the context of mobile robots.
 
