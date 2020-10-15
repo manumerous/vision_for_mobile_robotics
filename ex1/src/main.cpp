@@ -64,16 +64,30 @@ int main(int argc, char **argv)
     Eigen::MatrixXd poses = getMatrixFromTXT((base_path + poses_mat_filename).c_str());
     // std::cout << "poses = " << poses << "\n";
 
-    Eigen::Vector3d angle_axis_1(poses(0, 0), poses(0, 1), poses(0, 2));
-    // Eigen::Vector3d angle_axis_test(0, M_PI / 2, 0);
-    // std::cout << "poses = " << angle_axis_test << "\n";
-    Eigen::Matrix3d rot_mat_1 = angleAxisToRotMat(angle_axis_1);
-    std::cout << "rot_mat_1 = " << rot_mat_1 << "\n";
+    // Eigen::Vector3d angle_axis_1(poses(0, 0), poses(0, 1), poses(0, 2));
+    // // Eigen::Vector3d angle_axis_test(0, M_PI / 2, 0);
+    // // std::cout << "poses = " << angle_axis_test << "\n";
+    // Eigen::Matrix3d rot_mat_1 = angleAxisToRotMat(angle_axis_1);
+    // std::cout << "rot_mat_1 = " << rot_mat_1 << "\n";
+
+    // for (i = 0; i < 5; i++)
+    // {
+    //     Eigen::VectorXd pose_vec_test = poses.row(0);
+    //     Eigen::Matrix4d T = tranformMatFromPoseVec(pose_vec_test);
+    //     std::cout << T << "\n";
+    // }
 
     Eigen::VectorXd pose_vec_test = poses.row(0);
     std::cout << "pose_vec_test = " << pose_vec_test << "\n";
     Eigen::Matrix4d T = tranformMatFromPoseVec(pose_vec_test);
     std::cout << T << "\n";
 
-    return 0;
+    std::string first_image_path = "../data/images_undistorted/img_0001.jpg";
+    // std::string first_image_path = "bouncer.jpeg";
+    cv::Mat img1 = loadImage(first_image_path);
+    cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Display window", img1);
+    cv::waitKey(0);
+
+        return 0;
 }

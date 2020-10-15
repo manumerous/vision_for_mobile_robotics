@@ -9,6 +9,7 @@
  */
 
 #include <eigen3/Eigen/Dense>
+#include <opencv2/opencv.hpp>
 #include <fstream>
 
 #define MAXBUFSIZE ((int)1e6)
@@ -52,3 +53,14 @@ Eigen::MatrixXd getMatrixFromTXT(const char *filename)
 
     return result;
 };
+
+cv::Mat loadImage(std::string image_path)
+{
+    // std::string image_path = samples::findFile("starry_night.jpg");
+    cv::Mat img = cv::imread(image_path, cv::IMREAD_COLOR);
+    if (img.empty())
+    {
+        std::cout << "Could not read the image: " << image_path << std::endl;
+    }
+    return img;
+}
